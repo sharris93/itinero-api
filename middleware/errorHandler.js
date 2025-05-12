@@ -3,7 +3,7 @@ export default function errorHandler(err, res) {
   // Log the error
   console.log(err)
 
-  let { name, status, field, message, code } = err
+  let { name, status, field, message, code, kind } = err
 
   // * ValidationError
   if (name === 'ValidationError'){
@@ -25,6 +25,11 @@ export default function errorHandler(err, res) {
   // * JsonWebTokenError
   if (name === 'JsonWebTokenError') {
     return res.status(401).json({ message: 'Unauthorized' })
+  }
+
+  // * Invalid ObjectId Syntax
+  if (name === 'CastError' && kind === 'ObjectId') {
+    return res.status(422).json({ message: 'Invalid ObjectId' })
   }
   
   // * All custom error responses

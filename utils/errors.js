@@ -17,3 +17,21 @@ export class Unauthorized extends Error {
     this.field = 'message'
   }
 }
+
+export class NotFound extends Error {
+  constructor(message = 'Not Found'){
+    super(message)
+    this.name = 'NotFound'
+    this.status = 404
+    this.field = 'message'
+  }
+}
+
+export class Forbidden extends Error {
+  constructor(message = 'You do not have permission to access this resource'){
+    super(message)
+    this.name = 'Forbidden'
+    this.status = 403
+    this.field = 'message'
+  }
+}

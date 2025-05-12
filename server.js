@@ -5,6 +5,7 @@ import 'dotenv/config'
 
 // Routers/Controllers
 import authRouter from './controllers/auth.js'
+import activityRouter from './controllers/activities.js'
 
 const app = express()
 const port = process.env.PORT
@@ -15,6 +16,7 @@ app.use(morgan('dev'))
 
 // * Routers
 app.use('/api', authRouter)
+app.use('/api', activityRouter)
 
 // * 404 Route
 app.use('/{*any}', (req, res) => {
