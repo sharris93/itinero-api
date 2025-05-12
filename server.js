@@ -2,6 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
 import 'dotenv/config'
+import cors from 'cors'
 
 // Routers/Controllers
 import authRouter from './controllers/auth.js'
@@ -11,6 +12,7 @@ const app = express()
 const port = process.env.PORT
 
 // * Middleware
+app.use(cors()) // Enable CORS on all origins - used to consume the API from a react app
 app.use(express.json()) // Parses JSON bodies to req.body
 app.use(morgan('dev'))
 
