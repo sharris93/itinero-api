@@ -39,11 +39,13 @@ const startServers = async () => {
 startServers()
 
 export const handler = serverless(app, {
-  request: {
-    // parses incoming raw string (from Netlify) to JSON
-    body: {
-      parse: true,
-      encoding: 'utf8'
+  request: (req, event) => {
+    if (typeof event.body === 'string') {
+      try {
+        req.body = JSON.parse(event.body);
+      } catch (err) {
+        req.body = {};
+      }
     }
   }
 });
