@@ -9,11 +9,14 @@ import cors from 'cors'
 import authRouter from '../../controllers/auth.js'
 import activityRouter from '../../controllers/activities.js'
 
+// Parser
+import bodyParser from '../../middleware/bodyParser.js'
+
 const app = express()
 
 // * Middleware
+app.use(bodyParser)
 app.use(cors()) // Enable CORS on all origins - used to consume the API from a react app
-app.use(express.json()) // Parses JSON bodies to req.body
 app.use(morgan('dev'))
 
 // * Routers
