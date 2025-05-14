@@ -23,7 +23,7 @@ export default function errorHandler(err, res) {
   }
 
   // * JsonWebTokenError
-  if (name === 'JsonWebTokenError') {
+  if (name === 'JsonWebTokenError' || name === 'TokenExpiredError') {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
