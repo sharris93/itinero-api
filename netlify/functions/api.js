@@ -19,11 +19,6 @@ app.use(bodyParser)
 app.use(cors()) // Enable CORS on all origins - used to consume the API from a react app
 app.use(morgan('dev'))
 
-app.use((req, res, next) => {
-  console.log(req.body)
-  // next()
-})
-
 // * Routers
 app.use('/api', authRouter)
 app.use('/api', activityRouter)

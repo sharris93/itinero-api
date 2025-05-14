@@ -9,6 +9,7 @@ const router = express.Router()
 
 // * Routes
 router.post('/register', async (req, res) => {
+  console.log('BODY:', req.body)
   try {
     // 1. Check passwords match
     if (req.body.password !== req.body.passwordConfirmation) {
