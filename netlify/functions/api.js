@@ -15,7 +15,7 @@ import bodyParser from '../../middleware/bodyParser.js'
 const app = express()
 
 // * Middleware
-app.use(bodyParser)
+// app.use(bodyParser)
 app.use(cors()) // Enable CORS on all origins - used to consume the API from a react app
 app.use(morgan('dev'))
 
