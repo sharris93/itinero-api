@@ -33,8 +33,5 @@ export default function errorHandler(err, res) {
   }
   
   // * All custom error responses
-  if (!status) {
-    status = 500
-  }
-  return res.status(status).json({ [field]: message })
+  return res.status(status || 500).json({ [field]: message })
 }
