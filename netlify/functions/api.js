@@ -15,7 +15,7 @@ import bodyParser from '../../middleware/bodyParser.js'
 const app = express()
 
 // * Middleware
-app.use(bodyParser)
+app.use(express.json())
 app.use(cors()) // Enable CORS on all origins - used to consume the API from a react app
 app.use(morgan('dev'))
 
@@ -38,4 +38,12 @@ const startServers = async () => {
 }
 startServers()
 
-export const handler = serverless(app)
+export const handler = serverless(app, {
+  request: {
+    // parses incoming raw string (from Netlify) to JSON
+    body: {
+      parse: true,
+      encoding: 'utf8'
+    }
+  }
+});
