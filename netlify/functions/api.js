@@ -9,9 +9,6 @@ import cors from 'cors'
 import authRouter from '../../controllers/auth.js'
 import activityRouter from '../../controllers/activities.js'
 
-// Parser
-import bodyParser from '../../middleware/bodyParser.js'
-
 const app = express()
 
 // * Middleware
