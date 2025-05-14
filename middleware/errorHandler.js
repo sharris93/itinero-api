@@ -3,7 +3,7 @@ export default function errorHandler(err, res) {
   // Log the error
   console.log(err)
 
-  let { name, status, field, message, code, kind } = err
+  let { name, status, field = 'message', message, code, kind } = err
 
   // * ValidationError
   if (name === 'ValidationError'){
@@ -33,5 +33,8 @@ export default function errorHandler(err, res) {
   }
   
   // * All custom error responses
+  if (!status) {
+    status = 500
+  }
   return res.status(status).json({ [field]: message })
 }
