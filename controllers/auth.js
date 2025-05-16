@@ -4,24 +4,29 @@ import { Unauthorized, UnprocessableEntity } from '../utils/errors.js'
 import errorHandler from '../middleware/errorHandler.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import parser from '../middleware/fileParser.js'
 
 const router = express.Router()
 
 // * Routes
-router.post('/register', async (req, res) => {
-  console.log('BODY:', req.body)
+router.post('/register', parser.single('profileImage'), async (req, res) => {
   try {
-    // 1. Check passwords match
+    // 1. Hande file upload
+    if (req.file) {
+      req.body.profileImage = req.file.path
+    }
+
+    // 2. Check passwords match
     if (req.body.password !== req.body.passwordConfirmation) {
       throw new UnprocessableEntity('Passwords do not match', 'password')
     }
-    // 2. Hash the password
+    // 3. Hash the password
     req.body.password = bcrypt.hashSync(req.body.password)
 
-    // 3. Attempting to create the user
+    // 4. Attempting to create the user
     const user = await User.create(req.body)
 
-    // 4. Send success response
+    // 5. Send success response
     return res.status(201).json({ message: `Welcome ${user.username}` })
   } catch (error) {
     errorHandler(error, res)
@@ -34,6 +39,8 @@ router.post('/login', async (req, res) => {
 
     // 1. Search for the user by its email
     const userToLogin = await User.findOne({ email })
+
+    console.log(userToLogin)
     
     // 2. If not found, throw Unauthorized
     if (!userToLogin) {
@@ -53,7 +60,8 @@ router.post('/login', async (req, res) => {
     const payload = { 
       user: {
         _id: userToLogin._id,
-        username: userToLogin.username
+        username: userToLogin.username,
+        profileImage: userToLogin.profileImage
       }
     }
     const token = jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '2d' })
